@@ -18,9 +18,32 @@ def load_dataframes(spark: SparkSession, base_path: str):
     ])
 
     # ------ Accidents data ------
+    fields_list = ['ID', 'Source', 'Severity', 'Start_Time', 'End_Time', 'Start_Lat', 'Start_Lng',
+               'End_Lat', 'End_Lng', 'Distance(mi)', 'Description', 'Street', 'City', 'County', 'State',
+               'Zipcode', 'Country', 'Timezone', 'Airport_Code', 'Weather_Timestamp', 'Temperature(F)',
+               'Wind_Chill(F)', 'Humidity(%)', 'Pressure(in)', 'Visibility(mi)', 'Wind_Direction',
+               'Wind_Speed(mph)', 'Precipitation(in)', 'Weather_Condition', 'Amenity', 'Bump',
+               'Crossing', 'Give_Way', 'Junction', 'No_Exit', 'Railway', 'Roundabout', 'Station',
+               'Stop', 'Traffic_Calming', 'Traffic_Signal', 'Turning_Loop', 'Sunrise_Sunset',
+               'Civil_Twilight', 'Nautical_Twilight', 'Astronomical_Twilight']
+
+    int_fields = ['Severity']
+    float_fields = ['Start_Lat', 'Start_Lng', 'End_Lat', 'End_Lng', 'Distance(mi)', 'Temperature(F)',
+                    'Wind_Chill(F)', 'Humidity(%)', 'Pressure(in)', 'Visibility(mi)', 'Wind_Speed(mph)',
+                    'Precipitation(in)']
+    string_fields = ['ID', 'Source', 'Start_Time', 'End_Time', 'Description', 'Street', 'City', 'County',
+                    'State', 'Zipcode', 'Country', 'Timezone', 'Airport_Code', 'Weather_Timestamp',
+                    'Wind_Direction', 'Weather_Condition', 'Sunrise_Sunset', 'Civil_Twilight',
+                    'Nautical_Twilight', 'Astronomical_Twilight']
+    bool_fields = ['Amenity', 'Bump', 'Crossing', 'Give_Way', 'Junction', 'No_Exit', 'Railway', 'Roundabout',
+                'Station', 'Stop', 'Traffic_Calming', 'Traffic_Signal', 'Turning_Loop']
+
     accidents_schema = StructType([
-        StructField("ID", StringType(), True),
-        StructField("Source", StringType(), True)
+        StructField(f, IntegerType() if f in int_fields else 
+                    FloatType() if f in float_fields else 
+                    BooleanType() if f in bool_fields else 
+                    StringType(), True)
+        for f in fields_list
     ])
 
     # ------ Internet data ------
