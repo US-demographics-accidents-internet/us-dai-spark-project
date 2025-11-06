@@ -1,0 +1,19 @@
+ARG IMAGE_VARIANT=slim-bullseye
+ARG OPENJDK_VERSION=11
+ARG PYTHON_VERSION=3.9.8
+ARG PYSPARK_VERSION=3.2.0
+
+FROM python:${PYTHON_VERSION}-${IMAGE_VARIANT}
+
+ARG OPENJDK_VERSION
+ARG PYSPARK_VERSION
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends openjdk-${OPENJDK_VERSION}-jre-headless && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN pip --no-cache-dir install pyspark==${PYSPARK_VERSION}
+
+COPY . .
+
+CMD ["python", "main.py"]
