@@ -1,0 +1,4 @@
+# Ignore Dockerfile
+Dockerfile
+
+__pycache__/
