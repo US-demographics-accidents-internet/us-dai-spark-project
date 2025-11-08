@@ -1,9 +1,7 @@
 from pyspark.sql import SparkSession
-from extract import load_dataframes
-from transformation.filter import FilterTransormation
-from transformation.group_by import GroupByTransormation
-from transformation.join import JoinTransormation
-from transformation.window_functions import WindowFunctionTransormation
+from extract import load_dataframes, merge_equal_dataframes
+from transformation.internet_demographic import InternetDemographicTransformation
+
 
 if __name__ == "__main__":
     # SparkSession initialization
@@ -19,19 +17,18 @@ if __name__ == "__main__":
     for name, df in dfs.items():
         print(f"{name}: {df.count()}")
 
-    filter_transformations = FilterTransormation() 
-    join_transformations = JoinTransormation() 
-    groupBy_transformations = GroupByTransormation() 
-    window_function_transformations = WindowFunctionTransormation() 
+    # Merge 2 DataFrames (pusa, pusb) into demographic_df
+    demographic_df = merge_equal_dataframes(dfs["pusa"], dfs["pusb"])
+    dfs["demographic_df"] = demographic_df
 
+    # Delete unused dataframes from dict
+    pusa = dfs.pop("pusa")
+    pusb = dfs.pop("pusb")
 
-    for name, df in dfs.items():
-        filters = filter_transformations.invoke_pipeline(dataframe=df, dataframe_name=name)
-        joins = join_transformations.invoke_pipeline(dataframe=df, dataframe_name=name)
-        groupBys = groupBy_transformations.invoke_pipeline(dataframe=df, dataframe_name=name)
-        window_functions = window_function_transformations.invoke_pipeline(dataframe=df, dataframe_name=name)
+    internet_demographic_transformation = InternetDemographicTransformation() 
 
-
-
+    results = internet_demographic_transformation.invoke_pipeline(spark=spark,
+                                                                  demographics_df=dfs["demographic_df"], 
+                                                                  internet_df=dfs["internet"])
 
     spark.stop()
