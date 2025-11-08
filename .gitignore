@@ -1,3 +1,5 @@
 # Ignore Dockerfile
 
 __pycache__/
+.venv/
+datasets/
