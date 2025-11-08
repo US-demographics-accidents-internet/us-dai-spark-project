@@ -2,3 +2,7 @@
 Dockerfile
 
 __pycache__/
+Data/
+*.csv
+.venv/
+.dockerignore
