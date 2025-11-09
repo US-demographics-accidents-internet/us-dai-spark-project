@@ -1,5 +1,4 @@
-# Ignore Dockerfile
-
 __pycache__/
 .venv/
 datasets/
+business_questions_results/

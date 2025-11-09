@@ -137,6 +137,8 @@ def load_dataframes(spark: SparkSession, base_path: str):
 
     return {
         "demographics": df_pusa.unionByName(df_pusb),
+        "pusa": df_pusa,
+        "pusb": df_pusb,
         "accidents": df_accidents,
         "internet": df_internet
     }
