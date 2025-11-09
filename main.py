@@ -1,6 +1,7 @@
 from pyspark.sql import SparkSession
 from extract import load_dataframes
-from transform.accidents import transform_accidents_df 
+from transform.accidents import transform_accidents_df
+from transform.demographics import transform_demographics_df 
 
 if __name__ == "__main__":
     # SparkSession initialization
@@ -21,6 +22,7 @@ if __name__ == "__main__":
     
     transform_accidents_df(dfs)
     # TODO: insert transform stage for other datasets
-
+    transform_demographics_df(dfs, spark)
+    
     print("\n=== Завершення роботи =====")
     spark.stop()
