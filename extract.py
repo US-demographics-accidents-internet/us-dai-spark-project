@@ -140,3 +140,8 @@ def load_dataframes(spark: SparkSession, base_path: str):
         "accidents": df_accidents,
         "internet": df_internet
     }
+
+def merge_equal_dataframes(df1, df2):
+    if df1.schema == df2.schema:
+        return df1.unionByName(df2)
+    return None
