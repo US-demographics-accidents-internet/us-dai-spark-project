@@ -1,10 +1,10 @@
 from pyspark.sql import SparkSession
 from extract import load_dataframes, merge_equal_dataframes
 from transformation.internet_demographic import InternetDemographicTransformation
-from transform.accidents import transform_accidents_df 
-from extract import load_dataframes
 from transform.accidents import transform_accidents_df
 from transform.demographics import transform_demographics_df 
+from transform.accidents_demographics import AccidentsDemographicsTransformation 
+from extract import load_dataframes
 
 if __name__ == "__main__":
     # SparkSession initialization
@@ -25,9 +25,6 @@ if __name__ == "__main__":
     demographic_df = merge_equal_dataframes(dfs["pusa"], dfs["pusb"])
     dfs["demographic_df"] = demographic_df
 
-    # Delete unused dataframes from dict
-    pusa = dfs.pop("pusa")
-    pusb = dfs.pop("pusb")
     
     print("\n=== STAGE 2: TRANSFORM (Business-questions) ===")
 
@@ -38,8 +35,15 @@ if __name__ == "__main__":
                                                                   internet_df=dfs["internet"])
 
     transform_accidents_df(dfs)
-    # TODO: insert transform stage for other datasets
+
     transform_demographics_df(dfs, spark)
-    
+
+    accidents_demographics_transformation = AccidentsDemographicsTransformation() 
+
+    accidents_demographics_transformation.invoke_pipeline(spark=spark,
+                                                                  df_pusa=dfs["pusa"],
+                                                                  df_pusb=dfs["pusb"], 
+                                                                  df_accidents=dfs["accidents"])
+
     print("\n=== Завершення роботи =====")
     spark.stop()
