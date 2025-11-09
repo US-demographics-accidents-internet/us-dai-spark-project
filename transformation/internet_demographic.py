@@ -317,7 +317,7 @@ class InternetDemographicTransformation:
 
         return q6_result
 
-      def top3_providers_by_state(
+    def top3_providers_by_state(
         self,
         internet_df: DataFrame,
         min_consumer: int = 100,
