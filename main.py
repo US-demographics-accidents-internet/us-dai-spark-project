@@ -1,7 +1,10 @@
 from pyspark.sql import SparkSession
 from extract import load_dataframes, merge_equal_dataframes
 from transformation.internet_demographic import InternetDemographicTransformation
-
+from transform.accidents import transform_accidents_df
+from transform.demographics import transform_demographics_df 
+from transform.accidents_demographics import AccidentsDemographicsTransformation 
+from extract import load_dataframes
 
 if __name__ == "__main__":
     # SparkSession initialization
@@ -11,9 +14,10 @@ if __name__ == "__main__":
     base_path = "/app/Data"
 
     # Loading all CSVs into a DataFrame
+    print("=== STAGE 1: EXTRACT ===")
     dfs = load_dataframes(spark, base_path)
 
-    print("\n📊 Rows number in each dataset:")
+    print("\nRows number in each dataset:")
     for name, df in dfs.items():
         print(f"{name}: {df.count()}")
 
@@ -21,9 +25,8 @@ if __name__ == "__main__":
     demographic_df = merge_equal_dataframes(dfs["pusa"], dfs["pusb"])
     dfs["demographic_df"] = demographic_df
 
-    # Delete unused dataframes from dict
-    pusa = dfs.pop("pusa")
-    pusb = dfs.pop("pusb")
+    
+    print("\n=== STAGE 2: TRANSFORM (Business-questions) ===")
 
     internet_demographic_transformation = InternetDemographicTransformation() 
 
@@ -31,4 +34,16 @@ if __name__ == "__main__":
                                                                   demographics_df=dfs["demographic_df"], 
                                                                   internet_df=dfs["internet"])
 
+    transform_accidents_df(dfs)
+
+    transform_demographics_df(dfs, spark)
+
+    accidents_demographics_transformation = AccidentsDemographicsTransformation() 
+
+    accidents_demographics_transformation.invoke_pipeline(spark=spark,
+                                                                  df_pusa=dfs["pusa"],
+                                                                  df_pusb=dfs["pusb"], 
+                                                                  df_accidents=dfs["accidents"])
+
+    print("\n=== Завершення роботи =====")
     spark.stop()

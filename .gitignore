@@ -1,8 +1,6 @@
-# Ignore Dockerfile
-Dockerfile
 
 __pycache__/
 Data/
-*.csv
 .venv/
-.dockerignore
+datasets/
+business_questions_results/
