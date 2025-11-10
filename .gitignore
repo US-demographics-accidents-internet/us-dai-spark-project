@@ -4,3 +4,4 @@ Data/
 .venv/
 datasets/
 business_questions_results/
+numeric_column_statistics/

@@ -130,7 +130,7 @@ class AccidentsDemographicsTransformation:
         return education_vs_accidents_df
     
 
-    # # ---------- Join 1x, GroupBy 2x, Filter 1x ----------
+    # ---------- Join 1x, GroupBy 2x, Filter 1x ----------
     def work_hours_vs_accidents(self, df_demo: DataFrame, 
                                 df_accidents: DataFrame) -> DataFrame:
         """
@@ -175,7 +175,7 @@ class AccidentsDemographicsTransformation:
         return top5_wether_conditions_df
 
 
-    # # ---------- Window 1x, Filter 1x ----------
+    # ---------- Window 1x, Filter 1x ----------
     def under40_income_rank_state(self, df_demo: DataFrame) -> DataFrame:
         """
         Ranks individuals under 40 by adjusted income within each state,
