@@ -23,67 +23,69 @@ class InternetDemographicTransformation:
         state_lookup_df = spark.createDataFrame(state_data, ["ST", "StateAbbr"])
 
         
-        avarage_salary_df = self.average_salary_by_speed(demographics_df=demographics_df,
-                                                 internet_df=internet_df,
-                                                 state_lookup_df=state_lookup_df)
-        avarage_salary_df.show()
+        # avarage_salary_df = self.average_salary_by_speed(demographics_df=demographics_df,
+        #                                          internet_df=internet_df,
+        #                                          state_lookup_df=state_lookup_df)
+        # avarage_salary_df.show()
 
-        top_professions = self.rank_top_professions_by_education(demographics_df=demographics_df)
-        top_professions.show()
+        # top_professions = self.rank_top_professions_by_education(demographics_df=demographics_df)
+        # top_professions.show()
 
-        time_by_biz_internet = self.compare_commute_time_by_biz_internet(demographics_df=demographics_df,
-                                                 internet_df=internet_df,
-                                                 state_lookup_df=state_lookup_df)
-        time_by_biz_internet.show()
+        # time_by_biz_internet = self.compare_commute_time_by_biz_internet(demographics_df=demographics_df,
+        #                                          internet_df=internet_df,
+        #                                          state_lookup_df=state_lookup_df)
+        # time_by_biz_internet.show()
 
-        income_comparation = self.compare_income_to_peer_group(demographics_df=demographics_df)
-        income_comparation.show()
+        income_comparation_df = self.compare_income_to_peer_group(demographics_df=demographics_df)
+        income_comparation_df.show()
 
-        providers_correlation = self.correlate_providers_with_income(demographics_df=demographics_df,
-                                                 internet_df=internet_df,
-                                                 state_lookup_df=state_lookup_df)
-        providers_correlation.show()
+        # providers_correlation = self.correlate_providers_with_income(demographics_df=demographics_df,
+        #                                          internet_df=internet_df,
+        #                                          state_lookup_df=state_lookup_df)
+        # providers_correlation.show()
 
-        income_inequality_with_digital_divide_df = self.correlate_income_inequality_with_digital_divide(demographics_df=demographics_df,
-                                                 internet_df=internet_df,
-                                                 state_lookup_df=state_lookup_df)
-        income_inequality_with_digital_divide_df.show()
+        # income_inequality_with_digital_divide_df = self.correlate_income_inequality_with_digital_divide(demographics_df=demographics_df,
+        #                                          internet_df=internet_df,
+        #                                          state_lookup_df=state_lookup_df)
+        # income_inequality_with_digital_divide_df.show()
 
-        print("\n Top-3 internet providers by state:")
-        top3_df = self.top3_providers_by_state(internet_df=internet_df)
-        top3_df.show(30, truncate=False)
+        # print("\n Top-3 internet providers by state:")
+        # top3_df = self.top3_providers_by_state(internet_df=internet_df)
+        # top3_df.show(30, truncate=False)
 
-        print("\n Gender pay gap by state and internet speed:")
-        gender_gap_df = self.gender_pay_gap_by_state_speed(
-            demographics_df=demographics_df,
-            internet_df=internet_df,
-            state_lookup_df=state_lookup_df
-        )
-        gender_gap_df.show(20, truncate=False)
+        # print("\n Gender pay gap by state and internet speed:")
+        # gender_gap_df = self.gender_pay_gap_by_state_speed(
+        #     demographics_df=demographics_df,
+        #     internet_df=internet_df,
+        #     state_lookup_df=state_lookup_df
+        # )
+        # gender_gap_df.show(20, truncate=False)
 
-        print("\n Digital Resilience Index (DRI):")
-        dri_df = self.digital_resilience_index(
-            demographics_df=demographics_df,
-            internet_df=internet_df,
-            state_lookup_df=state_lookup_df
-        )
-        dri_df.show(20, truncate=False)
+        # print("\n Digital Resilience Index (DRI):")
+        # dri_df = self.digital_resilience_index(
+        #     demographics_df=demographics_df,
+        #     internet_df=internet_df,
+        #     state_lookup_df=state_lookup_df
+        # )
+        # dri_df.show(20, truncate=False)
 
-        print("\n National champion providers:")
-        champions_df = self.provider_national_champions(internet_df=internet_df)
-        champions_df.show(10, truncate=False)
+        # print("\n National champion providers:")
+        # champions_df = self.provider_national_champions(internet_df=internet_df)
+        # champions_df.show(10, truncate=False)
 
-        print("\n Providers with large sub-threshold pools:")
-        subx_df = self.subthreshold_pool_by_provider(internet_df=internet_df)
-        subx_df.show(20, truncate=False)
+        # print("\n Providers with large sub-threshold pools:")
+        # subx_df = self.subthreshold_pool_by_provider(internet_df=internet_df)
+        # subx_df.show(20, truncate=False)
 
-        print("\n States with affordability gaps:")
-        afford_df = self.affordability_gap_states(
-            internet_df=internet_df,
-            demographics_df=demographics_df,
-            state_lookup_df=state_lookup_df
-        )
-        afford_df.show(15, truncate=False)
+        # print("\n States with affordability gaps:")
+        # afford_df = self.affordability_gap_states(
+        #     internet_df=internet_df,
+        #     demographics_df=demographics_df,
+        #     state_lookup_df=state_lookup_df
+        # )
+        # afford_df.show(15, truncate=False)
+
+        return income_comparation_df
     
     # What is the average salary in states with "fast" vs. "slow" internet?
     def average_salary_by_speed(self, demographics_df: DataFrame, 
