@@ -14,6 +14,20 @@ RUN apt-get update && \
 
 RUN pip --no-cache-dir install pyspark==${PYSPARK_VERSION}
 
+RUN pip install --no-cache-dir \
+    pyspark==${PYSPARK_VERSION} \
+    notebook \
+    ipykernel
+
+RUN pip install --no-cache-dir \
+    numpy \
+    pandas \
+    scipy \
+    matplotlib \
+    seaborn
+
+EXPOSE 8888
+
 COPY . .
 
 CMD ["python", "main.py"]
