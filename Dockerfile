@@ -12,8 +12,8 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends openjdk-${OPENJDK_VERSION}-jre-headless && \
     rm -rf /var/lib/apt/lists/*
 
-RUN pip --no-cache-dir install pyspark==${PYSPARK_VERSION} mlflow
+RUN pip --no-cache-dir install pyspark==${PYSPARK_VERSION} numpy pandas
 
 COPY . .
 
-CMD ["python", "main.py"]
+CMD ["python", "training/training.py"]

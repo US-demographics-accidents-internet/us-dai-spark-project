@@ -5,14 +5,13 @@ from transform.demographics import transform_demographics_df
 from transform.accidents_demographics import AccidentsDemographicsTransformation
 import os 
 
-def transform_stage(dfs: dict, spark):
+def transform_stage(dfs: dict):
     """
     Transformational stage:
     - General information
     - Statistics
     - Business questions
     """
-
 
     # ----------------------------------------------------------------
     # ------------------- General information ------------------------
@@ -85,11 +84,11 @@ def transform_stage(dfs: dict, spark):
     
     print("\n=== STAGE 2: TRANSFORM (Business-questions) ===")
 
-    internet_demographic_transformation = InternetDemographicTransformation() 
+    # internet_demographic_transformation = InternetDemographicTransformation() 
 
-    internet_demographic_results = internet_demographic_transformation.invoke_pipeline(spark=spark,
-                                                                  demographics_df=dfs["demographic_df"], 
-                                                                  internet_df=dfs["internet"])
+    # internet_demographic_results = internet_demographic_transformation.invoke_pipeline(spark=spark,
+    #                                                               demographics_df=dfs["demographic_df"], 
+    #                                                               internet_df=dfs["internet"])
 
     # transform_accidents_df(dfs)
 
@@ -102,6 +101,4 @@ def transform_stage(dfs: dict, spark):
     #                                                               df_pusb=dfs["pusb"], 
     #                                                               df_accidents=dfs["accidents"])
 
-    return internet_demographic_results
-
-   
+    return df_internet
